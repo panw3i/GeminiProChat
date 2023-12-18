@@ -20,6 +20,9 @@ dependencies:
   '@fuyun/generative-ai':
     specifier: 0.1.1
     version: 0.1.1
+  '@google/generative-ai':
+    specifier: ^0.1.2
+    version: 0.1.2
   '@zag-js/slider':
     specifier: ^0.16.0
     version: 0.16.0
@@ -1883,6 +1886,11 @@ packages:
 
   /@fuyun/generative-ai@0.1.1:
     resolution: {integrity: sha512-Nwpv5bHIgZaAN9b4XWIhebwR4huZg4g3z5HxQbaWLIi2jg4Sq/b3V3vMTZor1VZ6/qxx4pf+MNbX/cNG/vIMFw==}
+    engines: {node: '>=18.0.0'}
+    dev: false
+
+  /@google/generative-ai@0.1.2:
+    resolution: {integrity: sha512-54easvKJpqnsW48LcplF/8bnLKvXeYe34rfMMdgqMVZEQmLOLEKZvbif4mFmyVwoMg1/6MPLwD703RLuSJKLJw==}
     engines: {node: '>=18.0.0'}
     dev: false
 
