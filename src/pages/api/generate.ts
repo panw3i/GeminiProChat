@@ -7,7 +7,7 @@ const passList = sitePassword.split(',') || []
 
 export const post: APIRoute = async(context) => {
   const body = await context.request.json()
-  const { sign, time, messages, pass } = body
+  const { sign, time, messages, pass,key } = body
 
   if (!messages || messages.length === 0 || messages[messages.length - 1].role !== 'user') {
     return new Response(JSON.stringify({
@@ -38,12 +38,12 @@ export const post: APIRoute = async(context) => {
     const newMessage = messages[messages.length - 1].parts.map(part => part.text).join('')
 
     // Start chat and send message with streaming
-    const stream = await startChatAndSendMessageStream(history, newMessage)
+    const stream = await startChatAndSendMessageStream(history, newMessage,key)
 
     const responseStream = new ReadableStream({
       async start(controller) {
         for await (const chunk of stream) {
-          const text = await chunk.text()
+          const text = chunk.text()
           const queue = new TextEncoder().encode(text)
           controller.enqueue(queue)
         }
