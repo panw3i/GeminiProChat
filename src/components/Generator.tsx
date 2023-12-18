@@ -96,6 +96,7 @@ export default () => {
             t: timestamp,
             m: requestMessageList?.[requestMessageList.length - 1]?.parts[0]?.text || '',
           }),
+          key: localStorage.getItem('userKey') || '',
         }),
         signal: controller.signal,
       })
@@ -191,8 +192,38 @@ export default () => {
     }
   }
 
+  const [showKeyModal, setShowKeyModal] = createSignal(false)
+  let keyInputRef
+
+  const saveKey = () => {
+    const key = keyInputRef.value
+    if (key) {
+      localStorage.setItem('userKey', key)
+      setShowKeyModal(false)
+    }
+  }
+
+  const KeyModal = () => (
+      <Show when={showKeyModal()}>
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10">
+          <div class="modal-content bg-white p-4 rounded-lg shadow-lg min-w-[300px]">
+            <span class="close absolute top-2 right-4 text-2xl text-white cursor-pointer" onClick={() => setShowKeyModal(false)}>&times;</span>
+            <input
+                type="text"
+                ref={keyInputRef}
+                class="gen-textarea mb-4"
+                placeholder="Enter your key..."
+            />
+            <button onClick={saveKey} class="gen-slate-btn">SAVE</button>
+          </div>
+        </div>
+      </Show>
+  );
+
+
   return (
     <div my-6>
+      <KeyModal />
       <Index each={messageList()}>
         {(message, index) => (
           <MessageItem
@@ -241,13 +272,36 @@ export default () => {
           </button>
         </div>
       </Show>
-      <div class="fixed bottom-5 left-5 rounded-md hover:bg-slate/10 w-fit h-fit transition-colors active:scale-90" class:stick-btn-on={isStick()}>
+      <div
+        class="fixed bottom-5 left-5 rounded-md hover:bg-slate/10 w-fit h-fit transition-colors active:scale-90"
+        class:stick-btn-on={isStick()}
+      >
         <div>
-          <button class="p-2.5 text-base" title="stick to bottom" type="button" onClick={() => setStick(!isStick())}>
+          <button
+            class="p-2.5 text-base"
+            title="stick to bottom"
+            type="button"
+            onClick={() => setStick(!isStick())}
+          >
             <div i-ph-arrow-line-down-bold />
           </button>
         </div>
       </div>
+         {/*  settings  */}
+        <div
+            class="fixed bottom-5 right-5 rounded-md hover:bg-slate/10 w-fit h-fit transition-colors active:scale-90"
+        >
+            <div>
+            <button
+                class="p-2.5 text-base"
+                title="settings"
+                type="button"
+                onClick={() => setShowKeyModal(true)}
+            >
+                <div i-ph-gear />
+            </button>
+            </div>
+        </div>
     </div>
   )
 }
